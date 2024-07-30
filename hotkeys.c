@@ -1,4 +1,3 @@
-#include <linux/input-event-codes.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <linux/input.h>

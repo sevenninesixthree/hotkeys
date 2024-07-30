@@ -1,0 +1,9 @@
+[Unit]
+Discription=hotkeys service
+
+[Service]
+Environment=DISPLAY=:0
+ExecStart=!!PATH
+
+[Install]
+WantedBy=multi-user.target
