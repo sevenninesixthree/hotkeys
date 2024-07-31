@@ -1,65 +1,10 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <linux/input.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "local.h"
-
-enum MaskValue{Ctrl,Alt,Shift,Lenth};
-int KeyCode[]={
-  29,56,42
-};
-
-#define BUF_SIZ 5
-char buffer[BUF_SIZ];
-
-void add_audio(){
-  char* cmd=
-    "amixer get Master"
-    "|grep Mono:"
-    "|awk '{print $3+1}'";
-  FILE* info=popen(cmd, "r");
-  fgets(buffer, BUF_SIZ, info);pclose(info);
-
-  char ocmd[]=
-    "amixer set Master %%%%"
-    "|grep Mono:"
-    "|awk '{print $4}'"
-    "|tr -cd 0-9";
-  freplace('%', buffer, ocmd);info=popen(ocmd,"r");
-
-  fgets(buffer, BUF_SIZ, info);pclose(info);
-  char bar[]="xsetroot -name audio:%%%%";
-  int i=replace('%', buffer, bar);
-  bar[i]=0;system(bar);
-}
-void sub_audio(){
-  char* cmd=
-    "amixer get Master"
-    "|grep Mono:"
-    "|awk '{print $3-1}'";
-  FILE* info=popen(cmd, "r");
-  fgets(buffer, BUF_SIZ, info);pclose(info);
-
-  char ocmd[]=
-    "amixer set Master %%%%"
-    "|grep Mono:"
-    "|awk '{print $4}'"
-    "|tr -cd 0-9";
-  freplace('%', buffer, ocmd);info=popen(ocmd,"r");
-
-  fgets(buffer, BUF_SIZ, info);pclose(info);
-  char bar[]="xsetroot -name audio:%%%%";
-  int i=replace('%', buffer, bar);
-  bar[i]=0;system(bar);
-}
-
-struct hotkeys{
-  int needMask;
-  int needCode;
-  void (*fun)();
-};
+#include "config.h"
 
 void changeMask(struct input_event ev,int *mask){
   for(int i=0;i<Lenth;i++)
@@ -69,11 +14,6 @@ void changeMask(struct input_event ev,int *mask){
       return;
     }
 }
-
-struct hotkeys keymap[]={
-  {1<<Alt,  65,   sub_audio},
-  {1<<Alt,  66,   add_audio}
-};
 
 int main(){
   char* dev=getDev("keyboard");

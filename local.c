@@ -33,7 +33,7 @@ char* getDev(char* key){
 
 int replace(char key, char *num, char *target){
   int i=0,j=0;while(target[i]!=key)i++;
-  while('0'<=num[j]&&num[j]<='9')
+  while(num[j]!='\n')
   {target[i+j]=num[j];j++;}
   return i+j+1;
 }
@@ -42,7 +42,7 @@ void freplace(char key, char *num, char *target){
   int i=0,j=0;
   while(target[i]!=key)i++;
   while(target[i]==key)i++;
-  while('0'<=num[j]&&num[j]<='9')j++;
+  while(num[j]!='\n')j++;
   for(i--,j--;j>=0;i--,j--)
     target[i]=num[j];
   while(target[i]==key){

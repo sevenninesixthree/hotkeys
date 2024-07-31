@@ -1,25 +1,40 @@
-CHECK=check.c local.c
-CHECK_OUT=check
-HOT=hotkeys.c local.c
-HOT_OUT=hotkeys
-WAY=$(realpath hotkeys)
+CFLAGS=-g
+debug:CFLAGS=-g
+build:CFLAGS=
+
+WAY:=$(realpath hotkeys)
 SERV_PATH=/usr/lib/systemd/system/
 TEMPLATE=hotkeys.temp
 SERVICE=hotkeys.service
 
-debug:dech dehot
-install:ch hot service
-	cp hotkeys.service ${SERV_PATH}
-dech:
-	cc -g ${CHECK} -o ${CHECK_OUT}
-ch:
-	cc ${CHECK} -o ${CHECK_OUT}
-dehot:
-	cc -g ${HOT} -o ${HOT_OUT}
-hot:
-	cc ${HOT} -o ${HOT_OUT}
+APPS=$(wildcard app/*.c)
+
+all:
+	@echo Please Use install
+
+install:build service
+	cp ${SERVICE} ${SERV_PATH}
+
+ch:check.o local.o
+	${CC} check.o local.o -o check
+
+hot:hotkeys.o local.o config
+	${CC} hotkeys.o local.o config.o -o hotkeys
+
+config:
+	${CC} ${CFLAGS} -c ${APPS} -o config.o
+
+build:ch hot clean
+
+debug:ch hot clean
+
 clean:
-	rm ${CHECK_OUT} ${HOT_OUT} ${SERVICE}
+	rm -f *.o
+
 service:
 	touch ${SERVICE}
 	cat ${TEMPLATE} | sed -e 's\!!PATH\${WAY}\g' > ${SERVICE}
+
+restart:build
+	systemctl stop ${SERVICE}
+	systemctl start ${SERVICE}

@@ -1,2 +1,4 @@
 check
 hotkeys
+*.o
+hotkeys.service
