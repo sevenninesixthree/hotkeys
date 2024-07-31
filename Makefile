@@ -7,10 +7,11 @@ SERV_PATH=/usr/lib/systemd/system/
 TEMPLATE=hotkeys.temp
 SERVICE=hotkeys.service
 
-APPS=$(wildcard app/*.c)
+APPS:=$(wildcard app/*.c)
+APPS:=$(APPS:%.c=%.o)
 
 all:
-	@echo Please Use install
+	@echo ${APPS}
 
 install:build service
 	cp ${SERVICE} ${SERV_PATH}
@@ -18,18 +19,15 @@ install:build service
 ch:check.o local.o
 	${CC} check.o local.o -o check
 
-hot:hotkeys.o local.o config
-	${CC} hotkeys.o local.o config.o -o hotkeys
-
-config:
-	${CC} ${CFLAGS} -c ${APPS} -o config.o
+hot:hotkeys.o local.o ${APPS}
+	${CC} hotkeys.o local.o ${APPS} -o hotkeys
 
 build:ch hot clean
 
 debug:ch hot clean
 
 clean:
-	rm -f *.o
+	rm -f *.o ${APPS}
 
 service:
 	touch ${SERVICE}
