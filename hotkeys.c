@@ -32,7 +32,7 @@ int main(){
     changeMask(ev, &Mask);
     for(int i=0;i<sizeof(keymap)/sizeof(struct hotkeys);i++){
       if(ev.value&&keymap[i].needMask==Mask&&keymap[i].needCode==ev.code)
-        keymap[i].fun();
+        keymap[i].fun(&keymap[i].Arg);
     }
   }
   return 0;

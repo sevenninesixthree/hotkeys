@@ -38,17 +38,12 @@ void show(double bright){
   freplace('!', num, cmd);system(cmd);
 }
 
-void sub_backlight(){
+void deltaBacklight(const Arg* delta){
   if(blt_max==0)bright_init();
   int bright=get_bright();
-  bright-=1;if(bright<0)bright=0;
-  char num[]="%%%%";itos(bright, num);
-  set_bright(num);show(bright);
-}
-void add_backlight(){
-  if(blt_max==0)bright_init();
-  int bright=get_bright();
-  bright+=1;if(bright>blt_max)bright=blt_max;
+  bright+=delta->i;
+  if(bright<0)bright=0;
+  if(bright>blt_max)bright=blt_max;
   char num[]="%%%%";itos(bright, num);
   set_bright(num);show(bright);
 }

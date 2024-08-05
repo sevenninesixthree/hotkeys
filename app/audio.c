@@ -31,27 +31,18 @@ void share(){
   }
 }
 
-void add_audio(){
-  char* cmd=
+void deltaAudio(const Arg* delta){
+  char cmd[]=
     "amixer get Master"
     "|grep Mono:"
-    "|awk '{print $3+1}'";
+    "|awk '{print $3%%}'";
+  freplace('%', delta->c, cmd);
   FILE* info=popen(cmd, "r");
   fgets(buffer, BUF_SIZ, info);pclose(info);
   share();
 }
 
-void sub_audio(){
-  char* cmd=
-    "amixer get Master"
-    "|grep Mono:"
-    "|awk '{print $3-1}'";
-  FILE* info=popen(cmd, "r");
-  fgets(buffer, BUF_SIZ, info);pclose(info);
-  share();
-}
-
-void mute(){
+void mute(const Arg* none){
   char* cmd=
     "amixer get Master"
     "|grep Mono:"
