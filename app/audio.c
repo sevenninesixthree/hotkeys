@@ -19,16 +19,14 @@ void share(){
     "|tr -d %[]";
   freplace('%', buffer, ocmd);info=popen(ocmd,"r");
 
+  char bar[]="xsetroot -name ' !!!:$$$%'";
   fgets(buffer, BUF_SIZ, info);
-  if(buffer[1]=='n'){
-    fgets(buffer, BUF_SIZ, info);
-    char bar[]="xsetroot -name ' :$$$%'";
-    freplace('$', buffer, bar);system(bar);
-  }else{
-    fgets(buffer, BUF_SIZ, info);
-    char bar[]="xsetroot -name ' :$$$%'";
-    freplace('$', buffer, bar);system(bar);
-  }
+  if(buffer[1]=='n')freplace('!', "\n", bar);
+  else freplace('!', "\n", bar);
+
+  fgets(buffer, BUF_SIZ, info);
+  freplace('$', buffer, bar);
+  system(bar);
 }
 
 void deltaAudio(const Arg* delta){

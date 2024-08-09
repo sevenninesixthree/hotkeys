@@ -6,6 +6,7 @@ static const int KeyCode[]={
   29,56,42
 };
 #define MKY(KEYV) (1<<KEYV)
+#define DMASK MKY(Alt)|MKY(Shift)
 
 typedef union {
   int i;
@@ -19,11 +20,11 @@ void deltaBacklight(const Arg*);
 struct hotkeys{
   int needMask;int needCode;void (*fun)(const Arg*);const Arg Arg;
 }static const keymap[]={
-  {MKY(Alt),          65,   deltaAudio,       {.c="-1\n"}},
-  {MKY(Alt),          66,   deltaAudio,       {.c="+1\n"}},
-  {MKY(Alt),          64,   mute,             {0}},
-  {MKY(Alt),          60,   deltaBacklight,   {.i=-1}},
-  {MKY(Alt),          61,   deltaBacklight,   {.i=1}}
+  {DMASK,          65,          deltaAudio,       {.c="-1\n"}},
+  {DMASK,          66,          deltaAudio,       {.c="+1\n"}},
+  {DMASK,          64,          mute,             {0}},
+  {DMASK,          60,          deltaBacklight,   {.i=-1}},
+  {DMASK,          61,          deltaBacklight,   {.i=1}}
 };
 
 #endif
