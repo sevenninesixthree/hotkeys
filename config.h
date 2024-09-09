@@ -21,12 +21,13 @@ void pickScreen(const Arg*);
 struct hotkeys{
   int needMask;int needCode;void (*fun)(const Arg*);const Arg Arg;
 }static const keymap[]={
-  {DMASK,          65,          deltaAudio,       {.c="-1\n"}},
-  {DMASK,          66,          deltaAudio,       {.c="+1\n"}},
-  {DMASK,          64,          mute,             {0}},
-  {DMASK,          60,          deltaBacklight,   {.i=-1}},
-  {DMASK,          61,          deltaBacklight,   {.i=1}},
-  {0,             111,          pickScreen,       {0}}
+  {DMASK,                65,     deltaAudio,       {.c="-1\n"}},
+  {DMASK,                66,     deltaAudio,       {.c="+1\n"}},
+  {DMASK,                64,     mute,             {0}},
+  {DMASK,                60,     deltaBacklight,   {.i=-1}},
+  {DMASK,                61,     deltaBacklight,   {.i=1}},
+  {0,                    99,     pickScreen,       {.c="-root\n"}},
+  {MKY(Shift),           99,     pickScreen,       {.c="\n"}}
 };
 
 #endif

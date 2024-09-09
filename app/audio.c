@@ -10,7 +10,7 @@ char buffer[BUF_SIZ];
 void share(){
   FILE* info;
   if(buffer[0]=='-'){
-    buffer[0]='0';buffer[1]=0;
+    buffer[0]='0';buffer[1]='\n';
   }
   char ocmd[]=
     "amixer set Master %%%%"
