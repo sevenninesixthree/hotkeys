@@ -54,3 +54,31 @@ void mute(const Arg* none){
     buffer[1]='f';buffer[2]='f';buffer[3]='\n';
   }share();
 }
+
+int speaker=-1;
+void toggleAudio(const Arg* none){
+  if(speaker<0){
+    char* cmd=
+      "amixer get Speaker"
+      "|grep Left:"
+      "|awk '{print $7}'"
+      "|tr -d []";
+    FILE* info=popen(cmd, "r");
+    fgets(buffer, BUF_SIZ, info);
+    if(buffer[1]=='f')speaker=0;
+    else speaker=1;
+  }
+  if(speaker){
+    char* cmd=
+      "amixer set Speaker off get;"
+      "amixer set Headphone on get;"
+      "xsetroot -name '  '";
+    system(cmd);speaker=0;
+  }else{
+    char* cmd=
+      "amixer set Speaker on get;"
+      "amixer set Headphone off get;"
+      "xsetroot -name '  '";
+    system(cmd);speaker=1;
+  }
+}

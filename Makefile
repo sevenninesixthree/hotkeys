@@ -16,15 +16,15 @@ all:
 install:build service
 	cp ${SERVICE} ${SERV_PATH}
 
-ch:check.o local.o
+check:check.o local.o
 	${CC} check.o local.o -o check
 
-hot:hotkeys.o local.o ${APPS}
+hotkeys:hotkeys.o local.o ${APPS}
 	${CC} hotkeys.o local.o ${APPS} -o hotkeys
 
-build:ch hot clean
+build:check hotkeys
 
-debug:ch hot clean
+debug:check hotkeys
 
 clean:
 	rm -f *.o ${APPS}
